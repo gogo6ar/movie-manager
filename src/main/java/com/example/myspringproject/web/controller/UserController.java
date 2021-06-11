@@ -20,8 +20,4 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<?> test() {
-        return (ResponseEntity<?>) ResponseEntity.ok();
-    }
 }

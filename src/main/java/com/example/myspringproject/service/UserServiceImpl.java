@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService{
         if (existingUser.isPresent()) {
             throw new UserAlreadyExistsException(String.format("User with [%s] already exists! Consider logging in.", request.getEmail()));
         }
+
         User user = User.builder()
                 .email(request.getEmail())
                 .firstName(request.getFirstName())

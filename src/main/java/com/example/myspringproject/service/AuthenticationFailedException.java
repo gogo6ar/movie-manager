@@ -1,2 +1,7 @@
-package com.example.myspringproject.service;public class AuthenticationFailedException {
+package com.example.myspringproject.service;
+
+public class AuthenticationFailedException extends RuntimeException {
+    public AuthenticationFailedException(String message) {
+        super(message);
+    }
 }

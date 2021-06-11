@@ -30,7 +30,6 @@ public class User implements UserDetails {
     private String role;
 
     public User() {
-
     }
 
     @Override
