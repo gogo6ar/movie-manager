@@ -2,6 +2,7 @@ package com.example.myspringproject.service;
 
 import com.example.myspringproject.repo.FilmRepository;
 import com.example.myspringproject.web.dto.FilmsDto;
+import com.example.myspringproject.web.dto.UserDto;
 import com.example.myspringproject.web.entity.Films;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -32,6 +33,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -93,10 +95,7 @@ public class FilmsServiceImpl implements FilmsService {
         // Fail if primitive values are null
         mapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, true);
 
-        FilmsDto book = FilmsDto.builder().build();
-        ArrayList<FilmsDto> films = new ArrayList<>();
         try {
-            //JsonNode jsonNode = mapper.readValue(responseEntity.getBody(), JsonNode.class);
             JsonNode jsonNode = mapper.readTree(response.body().toString());
             JsonNode items = jsonNode.get("results");
             if (items != null && items.isArray()) {
@@ -110,5 +109,9 @@ public class FilmsServiceImpl implements FilmsService {
         }
 
         return null;
+    }
+
+    public List<FilmsDto> getAll() {
+        return filmRepository.findAll().stream().map(FilmsDto::from).collect(Collectors.toList());
     }
 }
