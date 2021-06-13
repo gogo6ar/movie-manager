@@ -1,9 +1,6 @@
 package com.example.myspringproject.web.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -11,6 +8,7 @@ import javax.persistence.*;
 @Getter
 @Builder
 @Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "films")
 public class Films {
@@ -19,7 +17,9 @@ public class Films {
     private Long id;
 
     private String title;
-
-    public Films() {
-    }
+    private String idIMDb;
+    private String imgLink;
+    private String numberOfEpisodes;
+    private String titleType;
+    private String year;
 }

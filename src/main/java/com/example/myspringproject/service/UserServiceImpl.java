@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<UserDto> findAll() {
-        return null;
+        return userRepository.findAll().stream().map(UserDto::from).collect(Collectors.toList());
     }
 
     public User create(RegisterRequest request) {
