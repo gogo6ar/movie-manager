@@ -2,37 +2,20 @@ package com.example.myspringproject.service;
 
 import com.example.myspringproject.repo.FilmRepository;
 import com.example.myspringproject.web.dto.FilmsDto;
-import com.example.myspringproject.web.dto.UserDto;
 import com.example.myspringproject.web.entity.Films;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.util.JSONPObject;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import javassist.bytecode.ByteArray;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.connector.Request;
-import org.apache.catalina.connector.Response;
-import org.apache.tomcat.util.json.JSONParser;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,9 +23,8 @@ import java.util.stream.Collectors;
 public class FilmsServiceImpl implements FilmsService {
     private final FilmRepository filmRepository;
 
-    public void saveFilm(JsonNode items) {
-        StringBuilder categoriesSb = new StringBuilder();
-
+    @Override
+    public Films getItemFilm(JsonNode items) {
         JsonNode d = items;
         String title = d.has("title") ? d.get("title").textValue() : "";
 
@@ -61,15 +43,92 @@ public class FilmsServiceImpl implements FilmsService {
         String titleType = d.has("titleType") ? d.get("titleType").textValue() : "";
         int year = d.has("year") ? d.get("year").asInt() : 0;
 
-        Films films = Films.builder()
+        Films film = Films.builder()
                 .idIMDb(idIMDb)
                 .title(title)
                 .numberOfEpisodes(String.valueOf(numberOfEpisodes))
                 .year(String.valueOf(year))
                 .titleType(titleType)
                 .imgLink(imgLink).build();
+        return film;
+    }
 
-        filmRepository.save(films);
+    @Override
+    public Films getFilmByIdIMDb(String id) throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://imdb8.p.rapidapi.com/title/get-details?tconst=" + id))
+                .header("x-rapidapi-key", "749bccedf4msh6631c9a0eb08de2p126947jsn174c4d127f78")
+                .header("x-rapidapi-host", "imdb8.p.rapidapi.com")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        // Dont fail for not mapped values
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
+
+        // Fail if primitive values are null
+        mapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, true);
+
+        try {
+            JsonNode jsonNode = mapper.readTree(response.body().toString());
+            if (jsonNode != null) {
+                return getItemFilm(jsonNode);
+            }
+
+        } catch (IOException e) {
+            System.out.println("Exception happened: {}");
+        }
+
+        return null;
+    }
+
+    @Override
+    public void saveFilm(Films film) {
+        filmRepository.save(film);
+    }
+
+    @Override
+    public Map<Byte, String> getTop100Films() throws Exception {
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://imdb8.p.rapidapi.com/title/" +
+                        "get-most-popular-movies?homeCountry=US&purchaseCountry=US&currentCountry=US"))
+                .header("x-rapidapi-key", "749bccedf4msh6631c9a0eb08de2p126947jsn174c4d127f78")
+                .header("x-rapidapi-host", "imdb8.p.rapidapi.com")
+                .method("GET", HttpRequest.BodyPublishers.noBody())
+                .build();
+        HttpResponse response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
+
+        ObjectMapper mapper = new ObjectMapper();
+
+        // Dont fail for not mapped values
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        mapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
+
+        // Fail if primitive values are null
+        mapper.configure(DeserializationFeature.FAIL_ON_NULL_FOR_PRIMITIVES, true);
+
+        Map<Byte, String> top100 = new LinkedHashMap<>();
+        byte i = 1;
+        try {
+            JsonNode jsonNode = mapper.readTree(response.body().toString()
+                    .replaceAll("/title/", "")
+                    .replaceAll("/", ""));
+            if (jsonNode != null && jsonNode.isArray()) {
+                for (JsonNode item : jsonNode) {
+                    top100.put(i, item.textValue());
+                    i++;
+                }
+            }
+
+        } catch (IOException e) {
+            System.out.println("Exception happened: {}");
+        }
+
+        return top100;
     }
 
     @Override
@@ -84,7 +143,6 @@ public class FilmsServiceImpl implements FilmsService {
                 .method("GET", HttpRequest.BodyPublishers.noBody())
                 .build();
         HttpResponse response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -100,7 +158,7 @@ public class FilmsServiceImpl implements FilmsService {
             JsonNode items = jsonNode.get("results");
             if (items != null && items.isArray()) {
                 for (JsonNode item : items) {
-                    saveFilm(item);
+                    saveFilm(getItemFilm(item));
                 }
             }
 
@@ -113,5 +171,10 @@ public class FilmsServiceImpl implements FilmsService {
 
     public List<FilmsDto> getAll() {
         return filmRepository.findAll().stream().map(FilmsDto::from).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteFilmById(Long id) {
+        this.filmRepository.deleteById(id);
     }
 }
