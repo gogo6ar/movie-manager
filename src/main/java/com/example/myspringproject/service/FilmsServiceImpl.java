@@ -133,7 +133,18 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
-    public FilmsDto getFilmsFromAPI(String title) throws IOException, InterruptedException {
+    public List<FilmsDto> getFilmByTitleFromDataBase(String title) {
+        List<FilmsDto> list = new ArrayList<>();
+        List<Films> listOfFilms = filmRepository.findAllByTitle(title);
+        for (Films films : listOfFilms) {
+            list.add(FilmsDto.from(films, films.getComments()));
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<FilmsDto> getFilmsFromAPI(String title) throws IOException, InterruptedException {
 
         title = title.replaceAll(" ", "%20");
 
@@ -146,6 +157,7 @@ public class FilmsServiceImpl implements FilmsService {
         HttpResponse response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
 
         ObjectMapper mapper = new ObjectMapper();
+        List<FilmsDto> list = new ArrayList<>();
 
         // Dont fail for not mapped values
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
@@ -160,6 +172,7 @@ public class FilmsServiceImpl implements FilmsService {
             if (items != null && items.isArray()) {
                 for (JsonNode item : items) {
                     saveFilm(getItemFilm(item));
+                    list.add(FilmsDto.from(getItemFilm(item)));
                 }
             }
 
@@ -167,7 +180,7 @@ public class FilmsServiceImpl implements FilmsService {
             System.out.println("Exception happened: {}");
         }
 
-        return null;
+        return list;
     }
 
     public List<FilmsDto> findAll() {

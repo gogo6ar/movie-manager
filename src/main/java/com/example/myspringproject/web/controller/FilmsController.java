@@ -18,8 +18,7 @@ public class FilmsController {
 
     @PostMapping()
     public ResponseEntity<?> getFilmByTitleFromAPI(@RequestBody RequestBookByTitleFromApis request) throws IOException, InterruptedException, UnirestException {
-        filmsService.getFilmsFromAPI(request.getTitle());
-        return ResponseEntity.ok("ok");
+        return ResponseEntity.ok(filmsService.getFilmsFromAPI(request.getTitle()));
     }
 
     @GetMapping()
@@ -36,6 +35,11 @@ public class FilmsController {
     @GetMapping("/top100")
     public ResponseEntity<?> getTop100Films() throws Exception {
         return ResponseEntity.ok(filmsService.getTop100Films());
+    }
+
+    @GetMapping("/title/{title}")
+    public ResponseEntity<?> getFilmByTitleFromDataBase(@PathVariable String title) {
+        return ResponseEntity.ok(filmsService.getFilmByTitleFromDataBase(title));
     }
 
     @GetMapping("/{idIMDb}")

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface FilmsService {
-    FilmsDto getFilmsFromAPI(String title) throws IOException, InterruptedException, UnirestException;
+    List<FilmsDto> getFilmsFromAPI(String title) throws IOException, InterruptedException, UnirestException;
 
     void saveFilm(Films film);
 
@@ -23,4 +23,6 @@ public interface FilmsService {
     void deleteFilmById(Long id);
 
     Map<Byte, String> getTop100Films() throws Exception;
+
+    List<FilmsDto> getFilmByTitleFromDataBase(String title);
 }
