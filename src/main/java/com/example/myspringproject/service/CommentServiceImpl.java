@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-
 @RequiredArgsConstructor
 public class CommentServiceImpl implements CommentService {
     private final UserRepository userRepository;

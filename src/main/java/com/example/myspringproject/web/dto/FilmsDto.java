@@ -1,11 +1,13 @@
 package com.example.myspringproject.web.dto;
 
 import com.example.myspringproject.web.entity.Comment;
+import com.example.myspringproject.web.entity.EmotionType;
 import com.example.myspringproject.web.entity.Films;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,6 +23,7 @@ public class FilmsDto {
     private String titleType;
     private String year;
     private List<CommentDto> listOfComments;
+    private Map<EmotionType, Integer> emotionsCount;
 
     public static FilmsDto from(Films films, List<Comment> comments) {
         List<CommentDto> commentDtos = new ArrayList<>();
@@ -43,7 +46,7 @@ public class FilmsDto {
         result.setTitleType(films.getTitleType());
         result.setYear(films.getYear());
         result.setNumberOfEpisodes(films.getNumberOfEpisodes());
-
+        result.setEmotionsCount(films.getCountOfEmotions());
         return result;
     }
 }
