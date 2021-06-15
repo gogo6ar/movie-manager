@@ -1,7 +1,11 @@
 package com.example.myspringproject.web.dto;
 
+import com.example.myspringproject.web.entity.Comment;
 import com.example.myspringproject.web.entity.Films;
 import lombok.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,6 +20,19 @@ public class FilmsDto {
     private String numberOfEpisodes; //
     private String titleType;
     private String year;
+    private List<CommentDto> listOfComments;
+
+    public static FilmsDto from(Films films, List<Comment> comments) {
+        List<CommentDto> commentDtos = new ArrayList<>();
+        for (Comment comment : comments) {
+            CommentDto commentDto = CommentDto.from(comment);
+            commentDtos.add(commentDto);
+        }
+        FilmsDto result = from(films);
+        result.setListOfComments(commentDtos);
+
+        return result;
+    }
 
     public static FilmsDto from(Films films) {
         FilmsDto result = new FilmsDto();
@@ -26,6 +43,7 @@ public class FilmsDto {
         result.setTitleType(films.getTitleType());
         result.setYear(films.getYear());
         result.setNumberOfEpisodes(films.getNumberOfEpisodes());
+
         return result;
     }
 }

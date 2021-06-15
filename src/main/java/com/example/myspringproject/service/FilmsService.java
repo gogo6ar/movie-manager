@@ -18,9 +18,9 @@ public interface FilmsService {
 
     Films getFilmByIdIMDb(String id) throws IOException, InterruptedException;
 
-    List<FilmsDto> getAll();
+    List<FilmsDto> findAll();
 
     void deleteFilmById(Long id);
 
-    Map<Byte, String> getTop100Films() throws IOException, Exception;
+    Map<Byte, String> getTop100Films() throws Exception;
 }

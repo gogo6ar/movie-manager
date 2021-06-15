@@ -3,6 +3,8 @@ package com.example.myspringproject.web.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,6 +24,9 @@ public class Films {
     private String numberOfEpisodes;
     private String titleType;
     private String year;
+
+    @OneToMany(mappedBy = "films")
+    private List <Comment> comments = new ArrayList<>();
 
 
 }

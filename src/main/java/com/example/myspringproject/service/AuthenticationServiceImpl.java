@@ -24,7 +24,6 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
                     loginRequest.getPassword()));
-        System.out.println(authentication);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         if (authentication.isAuthenticated()) {
             User user = (User) authentication.getPrincipal();

@@ -23,8 +23,8 @@ public class FilmsController {
     }
 
     @GetMapping()
-    public ResponseEntity<?> getAll() {
-        return ResponseEntity.ok(filmsService.getAll());
+    public ResponseEntity<?> findAll() {
+        return ResponseEntity.ok(filmsService.findAll());
     }
 
     @DeleteMapping("/{id}")

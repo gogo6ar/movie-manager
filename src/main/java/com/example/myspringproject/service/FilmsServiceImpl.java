@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Book;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -169,8 +170,14 @@ public class FilmsServiceImpl implements FilmsService {
         return null;
     }
 
-    public List<FilmsDto> getAll() {
-        return filmRepository.findAll().stream().map(FilmsDto::from).collect(Collectors.toList());
+    public List<FilmsDto> findAll() {
+        List<Films> films = filmRepository.findAll();
+        List<FilmsDto> filmsDtos = new ArrayList<>();
+        for (Films film : films) {
+            FilmsDto filmsDto = FilmsDto.from(film, film.getComments());
+            filmsDtos.add(filmsDto);
+        }
+        return filmsDtos;
     }
 
     @Override
