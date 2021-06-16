@@ -3,6 +3,7 @@ package com.example.myspringproject.service;
 import com.example.myspringproject.repo.UserRepository;
 import com.example.myspringproject.web.dto.UserDto;
 import com.example.myspringproject.web.dto.requests.RegisterRequest;
+import com.example.myspringproject.web.dto.requests.UpdateUserRequest;
 import com.example.myspringproject.web.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,6 +26,22 @@ public class UserServiceImpl implements UserService{
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User with email [%s] not found", email)));
+    }
+
+    @Override
+    public void updateUser(Long id, UpdateUserRequest request) {
+//        userRepository.update(id, request);
+        Optional<User> existingUser = userRepository.findById(id);
+
+        User user = User.builder()
+                .id(id)
+                .email(request.getEmail())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .password(existingUser.get().getPassword())
+                .role(request.getRole())
+                .build();
+        userRepository.save(user);
     }
 
     @Override

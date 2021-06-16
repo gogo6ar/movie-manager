@@ -2,6 +2,7 @@ package com.example.myspringproject.web.controller;
 
 import com.example.myspringproject.repo.CommentRepository;
 import com.example.myspringproject.service.CommentService;
+import com.example.myspringproject.web.dto.requests.CommentDeleteRequest;
 import com.example.myspringproject.web.dto.requests.CommentRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,8 @@ public class CommentController {
     }
 
     @DeleteMapping()
-    public ResponseEntity<?> deleteComment(@RequestBody Integer id) {
-        commentRepository.deleteAllById(id);
+    public ResponseEntity<?> deleteComment(@RequestBody CommentDeleteRequest commentDeleteRequest) {
+        commentRepository.deleteAllById(commentDeleteRequest.getCommentId());
         return ResponseEntity.ok().build();
     }
 }

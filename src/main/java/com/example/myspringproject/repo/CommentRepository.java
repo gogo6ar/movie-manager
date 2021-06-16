@@ -3,7 +3,9 @@ package com.example.myspringproject.repo;
 import com.example.myspringproject.web.entity.Comment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CommentRepository extends JpaRepository<Comment, Long> {
+import javax.transaction.Transactional;
 
-    void deleteAllById(Integer id);
+public interface CommentRepository extends JpaRepository<Comment, Long> {
+    @Transactional
+    void deleteAllById(Long id);
 }
