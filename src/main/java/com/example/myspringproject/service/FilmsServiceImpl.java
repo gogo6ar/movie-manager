@@ -7,17 +7,17 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Book;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +30,7 @@ public class FilmsServiceImpl implements FilmsService {
         String title = d.has("title") ? d.get("title").textValue() : "";
 
         String idIMDb = d.has("id") ? d.get("id").textValue() : "";
+        idIMDb.replaceAll("/title/", "").replaceAll("/", "");
 
         JsonNode img = d.has("image") ? d.get("image") : d.get(null);
         String imgLink;

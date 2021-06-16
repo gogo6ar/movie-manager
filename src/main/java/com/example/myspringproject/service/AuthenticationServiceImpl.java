@@ -1,5 +1,6 @@
 package com.example.myspringproject.service;
 
+import com.example.myspringproject.service.exception.AuthenticationFailedException;
 import com.example.myspringproject.web.dto.UserLoginDto;
 import com.example.myspringproject.web.dto.requests.LoginRequest;
 import com.example.myspringproject.web.entity.User;
