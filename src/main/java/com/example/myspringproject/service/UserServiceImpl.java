@@ -55,6 +55,17 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
+    public List<UserDto> getTop10Users() {
+        List<User> listOfUsers = userRepository.getTop10Users();
+        List<UserDto> listOfUsersDto = new ArrayList<>();
+
+        for (User user : listOfUsers) {
+            listOfUsersDto.add(UserDto.from(user, user.getListOfUserRating()));
+        }
+        return listOfUsersDto;
+    }
+
+    @Override
     public List<UserDto> findAll() {
         return userRepository.findAll().stream().map(UserDto::from).collect(Collectors.toList());
     }

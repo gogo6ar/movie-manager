@@ -40,4 +40,8 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/top10")
+    public ResponseEntity<?> getTop10Users() {
+        return ResponseEntity.ok(userService.getTop10Users());
+    }
 }

@@ -46,7 +46,7 @@ public class UserDto {
         result.setFirstName(user.getFirstName());
         result.setLastName(user.getLastName());
         result.setRole(user.getRole());
-        result.setRating(user.getUserRating());
+        result.setRating(user.getRating());
         return result;
     }
 }

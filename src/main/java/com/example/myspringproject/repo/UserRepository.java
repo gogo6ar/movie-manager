@@ -16,4 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Integer countUsersByIdGreaterThan(Long start);
 
+    @Query(nativeQuery = true, value = "SELECT * FROM Users u order by u.rating LIMIT 10")
+    List<User> getTop10Users();
+
 }

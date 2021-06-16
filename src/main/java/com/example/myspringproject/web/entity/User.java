@@ -31,6 +31,7 @@ public class User implements UserDetails {
     private String lastName;
     private String password;
     private String role;
+    private Double rating;
 
     @OneToMany(mappedBy = "userId")
     private List<UserRating> listOfUserRating = new ArrayList<>();
@@ -46,9 +47,14 @@ public class User implements UserDetails {
            for(UserRating rating : listOfUserRating) {
                userRating += rating.getRating();
                count++;
+               System.out.println("userRating: " + userRating);
+               System.out.println("count: " + count);
            }
        }
         userRating /= count;
+
+
+        System.out.println("TOTAL: " + userRating);
 
         return userRating;
     }

@@ -37,5 +37,9 @@ public class UserRatingServiceImpl implements UserRatingService {
                 .build();
 
         userRatingRepository.save(rating);
+
+        //Update rating column
+        user.get().setRating(user.get().getUserRating());
+        userRepository.save(user.get());
     }
 }
