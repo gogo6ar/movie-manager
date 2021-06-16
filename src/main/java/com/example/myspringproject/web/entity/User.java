@@ -8,7 +8,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -30,7 +32,23 @@ public class User implements UserDetails {
     private String password;
     private String role;
 
+    @OneToMany(mappedBy = "userId")
+    private List<UserRating> listOfUserRating = new ArrayList<>();
+
     public User() {
+    }
+
+    public Double getUserRating() {
+        Double userRating = 0.0;
+        Integer count = 0;
+
+        for(UserRating rating : listOfUserRating) {
+            userRating += rating.getRating();
+            count++;
+        }
+        userRating /= count;
+
+        return userRating;
     }
 
     @Override

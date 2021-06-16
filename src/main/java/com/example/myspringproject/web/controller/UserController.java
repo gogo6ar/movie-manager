@@ -1,8 +1,10 @@
 package com.example.myspringproject.web.controller;
 
+import com.example.myspringproject.repo.UserRepository;
 import com.example.myspringproject.service.UserService;
 import com.example.myspringproject.web.dto.requests.RegisterRequest;
 import com.example.myspringproject.web.dto.requests.UpdateUserRequest;
+import com.example.myspringproject.web.dto.requests.UserVoteRequest;
 import com.example.myspringproject.web.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -14,11 +16,18 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final UserRepository userRepository;
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getUserById(id));
+    }
 
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody RegisterRequest request) {
         User user = userService.create(request);
-        return ResponseEntity.ok(user);
+        System.out.println(user.getListOfUserRating());
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/update/{id}")
