@@ -16,7 +16,7 @@ public interface UserService extends UserDetailsService {
 
     List<UserDto> findAll();
 
-    User create(RegisterRequest request);
+    UserDto create(RegisterRequest request);
 
     UserDetails loadUserByUsername(String email) throws UsernameNotFoundException;
 

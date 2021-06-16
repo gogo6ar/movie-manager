@@ -42,10 +42,12 @@ public class User implements UserDetails {
         Double userRating = 0.0;
         Integer count = 0;
 
-        for(UserRating rating : listOfUserRating) {
-            userRating += rating.getRating();
-            count++;
-        }
+       if (listOfUserRating != null) {
+           for(UserRating rating : listOfUserRating) {
+               userRating += rating.getRating();
+               count++;
+           }
+       }
         userRating /= count;
 
         return userRating;

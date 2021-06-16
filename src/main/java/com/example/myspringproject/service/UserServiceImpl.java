@@ -59,7 +59,7 @@ public class UserServiceImpl implements UserService{
         return userRepository.findAll().stream().map(UserDto::from).collect(Collectors.toList());
     }
 
-    public User create(RegisterRequest request) {
+    public UserDto create(RegisterRequest request) {
         Optional<User> existingUser = userRepository.findByEmail(request.getEmail());
         if (existingUser.isPresent()) {
             throw new UserAlreadyExistsException(String.format("User with [%s] already exists! Consider logging in.", request.getEmail()));
@@ -72,7 +72,9 @@ public class UserServiceImpl implements UserService{
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(request.getRole())
                 .build();
-        return userRepository.save(user);
+        userRepository.save(user);
+        UserDto userDto = UserDto.from(user, user.getListOfUserRating());
+        return userDto;
     }
 
 //    @Override

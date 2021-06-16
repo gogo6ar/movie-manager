@@ -27,9 +27,11 @@ public class UserDto {
 
     public static UserDto from(User user, List<UserRating> ratings) {
         List<UserRatingDto> userRatingsDtos = new ArrayList<>();
-        for (UserRating rating : ratings) {
-            UserRatingDto userRatingDto = UserRatingDto.from(rating);
-            userRatingsDtos.add(userRatingDto);
+        if (ratings != null) {
+            for (UserRating rating : ratings) {
+                UserRatingDto userRatingDto = UserRatingDto.from(rating);
+                userRatingsDtos.add(userRatingDto);
+            }
         }
         UserDto result = from(user);
         result.setListOfUserRating(userRatingsDtos);

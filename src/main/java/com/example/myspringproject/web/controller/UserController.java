@@ -25,9 +25,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<?> createUser(@RequestBody RegisterRequest request) {
-        User user = userService.create(request);
-        System.out.println(user.getListOfUserRating());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok(userService.create(request));
     }
 
     @PutMapping("/update/{id}")
