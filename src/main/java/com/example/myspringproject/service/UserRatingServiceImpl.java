@@ -27,8 +27,11 @@ public class UserRatingServiceImpl implements UserRatingService {
             }
         }
 
-        Optional<User> userVote = userRepository.findById(request.getUserVoteId());
+        if (request.getRating() > 10 || request.getRating() < 1) {
+            throw new Exception("EX");
+        }
 
+        Optional<User> userVote = userRepository.findById(request.getUserVoteId());
 
         UserRating rating = UserRating.builder()
                 .userVoteId(userVote.get())
