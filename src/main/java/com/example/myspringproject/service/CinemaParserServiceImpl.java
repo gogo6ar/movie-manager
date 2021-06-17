@@ -1,5 +1,6 @@
 package com.example.myspringproject.service;
 
+import com.example.myspringproject.web.dto.CinemaFilmDto;
 import lombok.AllArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,23 +14,46 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
-public class CinemaParserServiceImpl implements CineParserService {
+public class CinemaParserServiceImpl implements CinemaParserService {
 
-    public void saveCinemaFilms() throws IOException {
-        Document doc = Jsoup.connect("https://patria.md/?c_date=2021-06-18").get();
-        System.out.println((doc.title()));
-        Elements newsHeadlines = doc.select("name");
-        newsHeadlines = doc.getElementsByClass("name");
-        System.out.println(newsHeadlines);
-        List<String> list = new ArrayList<>();
-//        newsHeadlines = doc.get
-        for (Element headline : newsHeadlines) {
-//            System.out.println(headline);
-//            System.out.println("---------------------");
-            list.add(headline.toString().replaceAll("<div class=\"name\">", "").replaceAll("</div>", ""));
+    public List<CinemaFilmDto> getCinemaFilms(String date) throws IOException {
+        List<CinemaFilmDto> listOfCinemaFilms = new ArrayList<>();
+        Document doc = Jsoup.connect("https://patria.md/?c_date=" + date).get();
+        Elements newsHeadlines = doc.getElementsByClass("col animate-block animate-block--1");
+
+        newsHeadlines.first().getElementsByClass("name");
+        //Title of cinema film
+        List<String> listOfTitles = new ArrayList<>();
+        for (Element e : newsHeadlines) {
+            listOfTitles.add((e.text().split(" Audio:")[0]));
         }
 
-        System.out.println(list);;
+        //img link of cinema film
 
+        newsHeadlines = doc.getElementsByTag("img");
+        List<String> listOfImgLinks = new ArrayList<>();
+
+        for (Element e : newsHeadlines) {
+            listOfImgLinks.add(e.attr("src"));
+        }
+
+
+//        newsHeadlines = doc.getElementsByTag("img");
+//        List<String> listOfImgLinks = new ArrayList<>();
+//
+//        for (Element e : newsHeadlines) {
+//            listOfImgLinks.add(e.attr("src"));
+//        }
+
+
+        for (int i = 0; i < listOfTitles.size(); i++) {
+            CinemaFilmDto cinemaFilmDto = new CinemaFilmDto();
+            cinemaFilmDto.setTitle(listOfTitles.get(i));
+            cinemaFilmDto.setDate(date);
+//            cinemaFilmDto.setImgLink();
+            listOfCinemaFilms.add(cinemaFilmDto);
+        }
+
+        return listOfCinemaFilms;
     }
 }
