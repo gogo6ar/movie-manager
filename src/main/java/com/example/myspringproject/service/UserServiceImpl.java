@@ -1,11 +1,9 @@
 package com.example.myspringproject.service;
 
 import com.example.myspringproject.repo.UserRepository;
-import com.example.myspringproject.web.dto.FilmsDto;
 import com.example.myspringproject.web.dto.UserDto;
 import com.example.myspringproject.web.dto.requests.RegisterRequest;
 import com.example.myspringproject.web.dto.requests.UpdateUserRequest;
-import com.example.myspringproject.web.entity.Films;
 import com.example.myspringproject.web.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +11,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

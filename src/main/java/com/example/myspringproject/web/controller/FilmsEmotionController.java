@@ -1,6 +1,5 @@
 package com.example.myspringproject.web.controller;
 
-import com.example.myspringproject.repo.FilmEmotionRepository;
 import com.example.myspringproject.repo.FilmRepository;
 import com.example.myspringproject.service.FilmEmotionService;
 import com.example.myspringproject.service.exception.UserAlreadyVotesException;

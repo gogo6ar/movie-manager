@@ -3,8 +3,6 @@ package com.example.myspringproject.web.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.Map;
-import java.util.Set;
 
 @Entity
 @NoArgsConstructor

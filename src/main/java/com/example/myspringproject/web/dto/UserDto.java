@@ -1,7 +1,5 @@
 package com.example.myspringproject.web.dto;
 
-import com.example.myspringproject.web.entity.Comment;
-import com.example.myspringproject.web.entity.Films;
 import com.example.myspringproject.web.entity.User;
 import com.example.myspringproject.web.entity.UserRating;
 import lombok.AllArgsConstructor;

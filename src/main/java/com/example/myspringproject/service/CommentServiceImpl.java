@@ -3,7 +3,6 @@ package com.example.myspringproject.service;
 import com.example.myspringproject.repo.CommentRepository;
 import com.example.myspringproject.repo.FilmRepository;
 import com.example.myspringproject.repo.UserRepository;
-import com.example.myspringproject.web.dto.CommentDto;
 import com.example.myspringproject.web.dto.requests.CommentRequest;
 import com.example.myspringproject.web.entity.Comment;
 import com.example.myspringproject.web.entity.Films;
@@ -11,8 +10,6 @@ import com.example.myspringproject.web.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @Service

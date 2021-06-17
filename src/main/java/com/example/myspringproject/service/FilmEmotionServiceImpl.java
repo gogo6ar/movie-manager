@@ -4,7 +4,6 @@ import com.example.myspringproject.repo.FilmEmotionRepository;
 import com.example.myspringproject.repo.FilmRepository;
 import com.example.myspringproject.repo.UserRepository;
 import com.example.myspringproject.service.exception.UserAlreadyVotesException;
-import com.example.myspringproject.web.dto.FilmsDto;
 import com.example.myspringproject.web.dto.requests.FilmEmotionRequest;
 import com.example.myspringproject.web.entity.EmotionType;
 import com.example.myspringproject.web.entity.FilmEmotion;
@@ -13,7 +12,9 @@ import com.example.myspringproject.web.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

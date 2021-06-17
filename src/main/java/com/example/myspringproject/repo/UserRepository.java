@@ -1,9 +1,7 @@
 package com.example.myspringproject.repo;
 
-import com.example.myspringproject.web.dto.requests.UpdateUserRequest;
 import com.example.myspringproject.web.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;

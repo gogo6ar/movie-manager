@@ -3,12 +3,9 @@ package com.example.myspringproject.service;
 import com.example.myspringproject.web.dto.UserDto;
 import com.example.myspringproject.web.dto.requests.RegisterRequest;
 import com.example.myspringproject.web.dto.requests.UpdateUserRequest;
-import com.example.myspringproject.web.entity.User;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

@@ -4,8 +4,6 @@ import com.example.myspringproject.repo.UserRepository;
 import com.example.myspringproject.service.UserService;
 import com.example.myspringproject.web.dto.requests.RegisterRequest;
 import com.example.myspringproject.web.dto.requests.UpdateUserRequest;
-import com.example.myspringproject.web.dto.requests.UserVoteRequest;
-import com.example.myspringproject.web.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -6,7 +6,6 @@ import com.example.myspringproject.web.dto.requests.CommentDeleteRequest;
 import com.example.myspringproject.web.dto.requests.CommentRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
