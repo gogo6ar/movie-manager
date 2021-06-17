@@ -39,9 +39,9 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public Double getUserRating() {
-        Double userRating = 0.0;
-        Integer count = 0;
+    public Double getUserRating(Byte lastVote) {
+        Double userRating = lastVote * 1.0;
+        Integer count = 1;
 
        if (listOfUserRating != null) {
            for(UserRating rating : listOfUserRating) {
