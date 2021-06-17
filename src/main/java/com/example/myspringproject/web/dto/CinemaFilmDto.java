@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,5 +16,5 @@ public class CinemaFilmDto {
     private String moreInfoLink;
     private String imgLink;
     private String date;
-    private String time;
+    private List<String> time;
 }

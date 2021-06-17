@@ -29,28 +29,58 @@ public class CinemaParserServiceImpl implements CinemaParserService {
         }
 
         //img link of cinema film
-
-        newsHeadlines = doc.getElementsByTag("img");
         List<String> listOfImgLinks = new ArrayList<>();
-
-        for (Element e : newsHeadlines) {
-            listOfImgLinks.add(e.attr("src"));
+        Elements imgLinks = doc.select("div.in > div.img > img");
+        for (Element img : imgLinks) {
+            listOfImgLinks.add(img.attr("src"));
         }
 
+        //time
+        List<String> listOfFilmsTime = new ArrayList<>();
+        List<ArrayList<String>> listOfListFilmsTime = new ArrayList<>();
 
-//        newsHeadlines = doc.getElementsByTag("img");
-//        List<String> listOfImgLinks = new ArrayList<>();
-//
-//        for (Element e : newsHeadlines) {
-//            listOfImgLinks.add(e.attr("src"));
+//        Elements filmTime = doc.select("div.seanse-time > ul > li > a > span");
+
+
+        Elements filmTime;
+
+        for (int i = 0; i < listOfTitles.size(); i ++) {
+            listOfFilmsTime = new ArrayList<>();
+            int count = i + 1;
+            filmTime = doc.select("div.tabs-box > div.animate-block--1:nth-child(" + count + ") " +
+                    "> div.item > div.in > div.descript " +
+                    "> div.seanse-time > ul > li > a > span");
+
+            for (Element e : filmTime) {
+                if (!e.text().equals("2D") && !e.text().equals("3D")) {
+                    listOfFilmsTime.add(e.text());
+                }
+            }
+
+            listOfListFilmsTime.add((ArrayList<String>) listOfFilmsTime);
+
+            System.out.println("Count: " +i);
+            System.out.println(listOfFilmsTime);
+        }
+
+//        for (int i = 0; i < listOfListFilmsTime.size(); i ++) {
+//            for (int j = 0; j < listOfFilmsTime.size(); j ++) {
+//                {
+//                    if (listOfListFilmsTime.get(i).get(j).equals("2D") || listOfListFilmsTime.get(i).get(j).equals("3D")) {
+//                        listOfListFilmsTime.get(i).remove(j);
+//                        j--;
+//                    }
+//                }
+//            }
 //        }
-
 
         for (int i = 0; i < listOfTitles.size(); i++) {
             CinemaFilmDto cinemaFilmDto = new CinemaFilmDto();
             cinemaFilmDto.setTitle(listOfTitles.get(i));
             cinemaFilmDto.setDate(date);
-//            cinemaFilmDto.setImgLink();
+            cinemaFilmDto.setImgLink(listOfImgLinks.get(i));
+            cinemaFilmDto.setTime(listOfListFilmsTime.get(i));
+
             listOfCinemaFilms.add(cinemaFilmDto);
         }
 
