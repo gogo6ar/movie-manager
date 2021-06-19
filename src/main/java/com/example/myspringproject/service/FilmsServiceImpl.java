@@ -219,9 +219,9 @@ public class FilmsServiceImpl implements FilmsService {
         List<Long> listOfFilmsId = categoryRepository.findAllByCategory(category);
 
         for (Long id : listOfFilmsId) {
-            listOfFilms.add(FilmsDto.from(filmRepository.getById(id)));
+            Films films = filmRepository.getById(id);
+            listOfFilms.add(FilmsDto.from(films, films.getComments()));
         }
-
 
         return listOfFilms;
     }
