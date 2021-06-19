@@ -1,8 +1,10 @@
 package com.example.myspringproject.web.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.servlet.annotation.HttpConstraint;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +21,9 @@ public class Films {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(unique = true)
     private String title;
+    @Column(unique = true)
     private String idIMDb;
     private String imgLink;
     private Integer numberOfEpisodes;

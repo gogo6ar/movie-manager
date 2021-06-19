@@ -40,7 +40,7 @@ public class FilmsController {
         return ResponseEntity.ok("This book was delete");
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id={id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
         return ResponseEntity.ok(filmsService.getById(id));
     }
@@ -55,7 +55,7 @@ public class FilmsController {
         return ResponseEntity.ok(filmsService.getFilmByTitleFromDataBase(title));
     }
 
-    @GetMapping("/{idIMDb}")
+    @GetMapping("/idIMDb={idIMDb}")
     public ResponseEntity<?> getFilmByIdIMDb(@PathVariable String idIMDb) throws IOException, InterruptedException {
         return ResponseEntity.ok(filmsService.getFilmByIdIMDb(idIMDb));
     }
