@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.util.List;
 import java.util.Map;
 
@@ -27,5 +28,5 @@ public interface FilmsService {
 
     List<FilmsDto> getFilmByTitleFromDataBase(String title);
 
-    void addFilms(AddFilmRequest request);
+    void addFilms(AddFilmRequest request) throws FileAlreadyExistsException;
 }

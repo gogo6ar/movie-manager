@@ -19,9 +19,9 @@ public class FilmsDto {
     private String title; //
     private String idIMDb;//
     private String imgLink;
-    private String numberOfEpisodes; //
+    private Integer numberOfEpisodes; //
     private String titleType;
-    private String year;
+    private Integer year;
     private List<CommentDto> listOfComments;
     private Map<EmotionType, Integer> emotionsCount;
 

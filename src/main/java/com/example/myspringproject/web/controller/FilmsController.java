@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 
 @RestController
 @CrossOrigin(origins = "**")
@@ -23,7 +24,7 @@ public class FilmsController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addFilm(@RequestBody AddFilmRequest request) {
+    public ResponseEntity<?> addFilm(@RequestBody AddFilmRequest request) throws FileAlreadyExistsException {
         filmsService.addFilms(request);
         return ResponseEntity.ok().build();
     }

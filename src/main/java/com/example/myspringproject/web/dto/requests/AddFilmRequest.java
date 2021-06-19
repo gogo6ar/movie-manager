@@ -11,22 +11,26 @@ public class AddFilmRequest {
     private String title;
     private String idIMDb;
     private String imgLink;
-    private String numberOfEpisodes;
+    private Integer numberOfEpisodes;
     private String titleType;
-    private String year;
+    private Integer year;
+    private Long userId;
 
     @JsonCreator
-    public AddFilmRequest (@JsonProperty String title,
+    public AddFilmRequest( @JsonProperty String title,
                            @JsonProperty String idIMDb,
                            @JsonProperty String imgLink,
-                           @JsonProperty String numberOfEpisodes,
+                           @JsonProperty Integer numberOfEpisodes,
                            @JsonProperty String titleType,
-                           @JsonProperty String year) {
+                           @JsonProperty Integer year,
+                           @JsonProperty Long userId
+                          ) {
         this.title = title;
         this.idIMDb = idIMDb;
         this.imgLink = imgLink;
         this.numberOfEpisodes =numberOfEpisodes;
         this.titleType = titleType;
         this.year = year;
+        this.userId = userId;
     }
 }

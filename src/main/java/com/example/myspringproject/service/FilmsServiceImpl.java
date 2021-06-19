@@ -15,6 +15,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -146,7 +147,15 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
-    public void addFilms(AddFilmRequest request) {
+    public void addFilms(AddFilmRequest request) throws FileAlreadyExistsException {
+        if (filmRepository.findTitle(request.getTitle()).isEmpty()) {
+            throw new FileAlreadyExistsException("This film already exist");
+        }
+
+        if (filmRepository.findIdIMDb(request.getIdIMDb()).isEmpty()) {
+            throw new FileAlreadyExistsException("This film already exist");
+        }
+
         Films films = Films.builder()
                 .title(request.getTitle())
                 .idIMDb(request.getIdIMDb())
