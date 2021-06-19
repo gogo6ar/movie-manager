@@ -1,6 +1,7 @@
 package com.example.myspringproject.service;
 
 import com.example.myspringproject.web.dto.FilmsDto;
+import com.example.myspringproject.web.dto.requests.AddFilmRequest;
 import com.example.myspringproject.web.entity.Films;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.mashape.unirest.http.exceptions.UnirestException;
@@ -25,4 +26,6 @@ public interface FilmsService {
     Map<Byte, String> getTop100Films() throws Exception;
 
     List<FilmsDto> getFilmByTitleFromDataBase(String title);
+
+    void addFilms(AddFilmRequest request);
 }

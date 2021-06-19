@@ -2,6 +2,7 @@ package com.example.myspringproject.service;
 
 import com.example.myspringproject.repo.FilmRepository;
 import com.example.myspringproject.web.dto.FilmsDto;
+import com.example.myspringproject.web.dto.requests.AddFilmRequest;
 import com.example.myspringproject.web.entity.Films;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -142,6 +143,19 @@ public class FilmsServiceImpl implements FilmsService {
         }
 
         return list;
+    }
+
+    @Override
+    public void addFilms(AddFilmRequest request) {
+        Films films = Films.builder()
+                .title(request.getTitle())
+                .idIMDb(request.getIdIMDb())
+                .imgLink(request.getImgLink())
+                .numberOfEpisodes(request.getNumberOfEpisodes())
+                .titleType(request.getTitleType())
+                .year(request.getYear())
+                .build();
+        filmRepository.save(films);
     }
 
     @Override

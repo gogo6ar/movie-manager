@@ -36,7 +36,7 @@ public class CinemaParserServiceImpl implements CinemaParserService {
         }
 
         //time
-        List<String> listOfFilmsTime = new ArrayList<>();
+        List<String> listOfFilmsTime;
         List<ArrayList<String>> listOfListFilmsTime = new ArrayList<>();
 
 //        Elements filmTime = doc.select("div.seanse-time > ul > li > a > span");

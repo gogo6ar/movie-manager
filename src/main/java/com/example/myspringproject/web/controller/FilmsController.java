@@ -1,6 +1,7 @@
 package com.example.myspringproject.web.controller;
 
 import com.example.myspringproject.service.FilmsService;
+import com.example.myspringproject.web.dto.requests.AddFilmRequest;
 import com.example.myspringproject.web.dto.requests.RequestBookByTitleFromApis;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,12 @@ public class FilmsController {
     @PostMapping()
     public ResponseEntity<?> getFilmByTitleFromAPI(@RequestBody RequestBookByTitleFromApis request) throws IOException, InterruptedException, UnirestException {
         return ResponseEntity.ok(filmsService.getFilmsFromAPI(request.getTitle()));
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addFilm(@RequestBody AddFilmRequest request) {
+        filmsService.addFilms(request);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping()
