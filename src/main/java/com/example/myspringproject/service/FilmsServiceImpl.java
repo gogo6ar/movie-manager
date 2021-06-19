@@ -254,8 +254,7 @@ public class FilmsServiceImpl implements FilmsService {
             JsonNode items = jsonNode.get("results");
             if (items != null && items.isArray()) {
                 for (JsonNode item : items) {
-                    saveFilm(getItemFilm(item));
-                    list.add(FilmsDto.from(getItemFilm(item)));
+                    list.add(FilmsDto.from(filmRepository.save(getItemFilm(item))));
                 }
             }
 

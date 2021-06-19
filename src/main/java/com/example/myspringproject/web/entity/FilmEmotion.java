@@ -13,7 +13,7 @@ import javax.persistence.*;
 @Table(name = "Film_emotion")
 public class FilmEmotion {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
