@@ -33,4 +33,6 @@ public interface FilmsService {
     void updateFilm(AddFilmRequest request, Long filmId) throws FileAlreadyExistsException;
 
     List<FilmsDto> getFilmsByCategory(String category);
+
+    FilmsDto getById(Long id);
 }

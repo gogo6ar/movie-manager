@@ -40,6 +40,11 @@ public class FilmsController {
         return ResponseEntity.ok("This book was delete");
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(filmsService.getById(id));
+    }
+
     @GetMapping("/top100")
     public ResponseEntity<?> getTop100Films() throws Exception {
         return ResponseEntity.ok(filmsService.getTop100Films());

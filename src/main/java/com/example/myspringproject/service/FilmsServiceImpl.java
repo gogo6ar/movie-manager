@@ -19,10 +19,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.file.FileAlreadyExistsException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -224,6 +221,13 @@ public class FilmsServiceImpl implements FilmsService {
         }
 
         return listOfFilms;
+    }
+
+    @Override
+    public FilmsDto getById(Long id) {
+        Optional<Films> films = filmRepository.findById(id);
+        FilmsDto filmsDto = FilmsDto.from(films.get(), films.get().getComments());
+        return filmsDto;
     }
 
     @Override
