@@ -25,7 +25,7 @@ public class CinemaParserServiceImpl implements CinemaParserService {
         //Title of cinema film
         List<String> listOfTitles = new ArrayList<>();
         for (Element e : newsHeadlines) {
-            listOfTitles.add((e.text().split(" Audio:")[0]));
+            listOfTitles.add((e.text().split(" Audio:")[0]).replaceAll("Nou ", ""));
         }
 
         //img link of cinema film
@@ -58,21 +58,17 @@ public class CinemaParserServiceImpl implements CinemaParserService {
             }
 
             listOfListFilmsTime.add((ArrayList<String>) listOfFilmsTime);
-
-            System.out.println("Count: " +i);
-            System.out.println(listOfFilmsTime);
         }
 
-//        for (int i = 0; i < listOfListFilmsTime.size(); i ++) {
-//            for (int j = 0; j < listOfFilmsTime.size(); j ++) {
-//                {
-//                    if (listOfListFilmsTime.get(i).get(j).equals("2D") || listOfListFilmsTime.get(i).get(j).equals("3D")) {
-//                        listOfListFilmsTime.get(i).remove(j);
-//                        j--;
-//                    }
-//                }
-//            }
-//        }
+        //More Info links
+
+        List<String> listOfMoreInfoLinks = new ArrayList<>();
+        newsHeadlines = doc.select("div.ctg-bottom > a:nth-child(2)");
+
+        for (Element e : newsHeadlines) {
+            listOfMoreInfoLinks.add(e.attr("href"));
+        }
+
 
         for (int i = 0; i < listOfTitles.size(); i++) {
             CinemaFilmDto cinemaFilmDto = new CinemaFilmDto();
@@ -80,6 +76,7 @@ public class CinemaParserServiceImpl implements CinemaParserService {
             cinemaFilmDto.setDate(date);
             cinemaFilmDto.setImgLink(listOfImgLinks.get(i));
             cinemaFilmDto.setTime(listOfListFilmsTime.get(i));
+            cinemaFilmDto.setMoreInfoLink(listOfMoreInfoLinks.get(i));
 
             listOfCinemaFilms.add(cinemaFilmDto);
         }
