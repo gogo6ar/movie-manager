@@ -29,4 +29,6 @@ public interface FilmsService {
     List<FilmsDto> getFilmByTitleFromDataBase(String title);
 
     void addFilms(AddFilmRequest request) throws FileAlreadyExistsException;
+
+    void updateFilm(AddFilmRequest request, Long filmId) throws FileAlreadyExistsException;
 }

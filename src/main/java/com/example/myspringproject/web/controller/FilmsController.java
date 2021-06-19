@@ -54,4 +54,11 @@ public class FilmsController {
     public ResponseEntity<?> getFilmByIdIMDb(@PathVariable String idIMDb) throws IOException, InterruptedException {
         return ResponseEntity.ok(filmsService.getFilmByIdIMDb(idIMDb));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity <?> updateFilm(@RequestBody AddFilmRequest request,
+                                         @PathVariable("id") Long filmId) throws FileAlreadyExistsException {
+        filmsService.updateFilm(request, filmId);
+        return ResponseEntity.ok().build();
+    }
 }

@@ -50,8 +50,8 @@ public class FilmsServiceImpl implements FilmsService {
         Films film = Films.builder()
                 .idIMDb(idIMDb)
                 .title(title)
-                .numberOfEpisodes(String.valueOf(numberOfEpisodes))
-                .year(String.valueOf(year))
+                .numberOfEpisodes(numberOfEpisodes)
+                .year(year)
                 .titleType(titleType)
                 .imgLink(imgLink).build();
         return film;
@@ -165,6 +165,31 @@ public class FilmsServiceImpl implements FilmsService {
                 .year(request.getYear())
                 .build();
         filmRepository.save(films);
+    }
+
+    @Override
+    public void updateFilm(AddFilmRequest request, Long filmId) throws FileAlreadyExistsException {
+        //Userid??
+
+        if (filmRepository.findTitle(request.getTitle()).isEmpty()) {
+            throw new FileAlreadyExistsException("This film already exist");
+        }
+
+        if (filmRepository.findIdIMDb(request.getIdIMDb()).isEmpty()) {
+            throw new FileAlreadyExistsException("This film already exist");
+        }
+
+        Films films = Films.builder()
+                .id(filmId)
+                .title(request.getTitle())
+                .idIMDb(request.getIdIMDb())
+                .imgLink(request.getImgLink())
+                .numberOfEpisodes(request.getNumberOfEpisodes())
+                .titleType(request.getTitleType())
+                .year(request.getYear())
+                .build();
+        filmRepository.save(films);
+
     }
 
     @Override

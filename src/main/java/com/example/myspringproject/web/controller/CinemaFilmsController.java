@@ -14,6 +14,7 @@ import java.io.IOException;
 public class CinemaFilmsController {
     private final CinemaParserServiceImpl cinemaParserService;
 
+    //example: 2021-06-20
     @GetMapping("/{date}")
     public ResponseEntity<?> getCinemaFilms(@PathVariable String date) throws IOException {
         return ResponseEntity.ok(cinemaParserService.getCinemaFilms(date));
