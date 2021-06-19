@@ -1,8 +1,6 @@
 package com.example.myspringproject.service;
 
-import com.example.myspringproject.repo.FavouriteFilmsRepository;
-import com.example.myspringproject.repo.UserRatingRepository;
-import com.example.myspringproject.repo.UserRepository;
+import com.example.myspringproject.repo.*;
 import com.example.myspringproject.web.dto.UserDto;
 import com.example.myspringproject.web.dto.requests.RegisterRequest;
 import com.example.myspringproject.web.dto.requests.UpdateUserRequest;
@@ -26,6 +24,8 @@ public class UserServiceImpl implements UserService{
     private final UserRatingRepository userRatingRepository;
     private final FavouriteFilmsRepository favouriteFilmsRepository;
     private final PasswordEncoder passwordEncoder;
+    private final CommentRepository commentRepository;
+    private final FilmEmotionRepository filmEmotionRepository;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -75,8 +75,12 @@ public class UserServiceImpl implements UserService{
     @Override
     @Transactional
     public void deleteUserById(Long id) {
-        userRatingRepository.deleteAllByUserId(id);
+        Optional<User> user = userRepository.findById(id);
         favouriteFilmsRepository.deleteAllByUserId(id);
+        userRatingRepository.deleteAllByUserId(user); ////
+        commentRepository.deleteAllByUserId(id);
+        filmEmotionRepository.deleteAllByUserId(id); ///////
+
         userRepository.deleteById(id);
     }
 

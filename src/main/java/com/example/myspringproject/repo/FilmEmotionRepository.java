@@ -12,4 +12,6 @@ public interface FilmEmotionRepository extends JpaRepository<FilmEmotion, Long> 
     List<Long> getUsersIdFromEmotions(@Param("films_id") Long films_id);
 
     void deleteAllByFilmsId(Long filmsId);
+
+    void deleteAllByUserId(Long userId);
 }
