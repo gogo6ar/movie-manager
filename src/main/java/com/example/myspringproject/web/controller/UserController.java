@@ -38,6 +38,12 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUserById(@PathVariable Long id) {
+        userService.deleteUserById(id);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/top10")
     public ResponseEntity<?> getTop10Users() {
         return ResponseEntity.ok(userService.getTop10Users());

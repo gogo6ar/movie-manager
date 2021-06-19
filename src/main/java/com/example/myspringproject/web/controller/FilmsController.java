@@ -1,8 +1,11 @@
 package com.example.myspringproject.web.controller;
 
+import com.example.myspringproject.service.FavouriteFilmsService;
 import com.example.myspringproject.service.FilmsService;
 import com.example.myspringproject.web.dto.requests.AddFilmRequest;
+import com.example.myspringproject.web.dto.requests.FavouriteFilmsRequest;
 import com.example.myspringproject.web.dto.requests.RequestFilmByTitleFromApis;
+import com.example.myspringproject.web.entity.FavouritesFilms;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +20,7 @@ import java.nio.file.FileAlreadyExistsException;
 @RequiredArgsConstructor
 public class FilmsController {
     private final FilmsService filmsService;
-
+    private final FavouriteFilmsService favouriteFilmsService;
     @PostMapping()
     public ResponseEntity<?> getFilmByTitleFromAPI(@RequestBody RequestFilmByTitleFromApis request) throws IOException, InterruptedException, UnirestException {
         return ResponseEntity.ok(filmsService.getFilmsFromAPI(request.getTitle()));
@@ -48,6 +51,12 @@ public class FilmsController {
     @GetMapping("/top100")
     public ResponseEntity<?> getTop100Films() throws Exception {
         return ResponseEntity.ok(filmsService.getTop100Films());
+    }
+
+    @PostMapping("/favourite-films")
+    public ResponseEntity<?> addFavouriteFilms(@RequestBody FavouriteFilmsRequest request) {
+        favouriteFilmsService.addFavouriteFilm(request);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/title/{title}")

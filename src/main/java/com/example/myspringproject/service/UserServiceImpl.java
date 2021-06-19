@@ -1,5 +1,7 @@
 package com.example.myspringproject.service;
 
+import com.example.myspringproject.repo.FavouriteFilmsRepository;
+import com.example.myspringproject.repo.UserRatingRepository;
 import com.example.myspringproject.repo.UserRepository;
 import com.example.myspringproject.web.dto.UserDto;
 import com.example.myspringproject.web.dto.requests.RegisterRequest;
@@ -11,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,6 +23,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
     private final UserRepository userRepository;
+    private final UserRatingRepository userRatingRepository;
+    private final FavouriteFilmsRepository favouriteFilmsRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -65,6 +70,14 @@ public class UserServiceImpl implements UserService{
     @Override
     public List<UserDto> findAll() {
         return userRepository.findAll().stream().map(UserDto::from).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void deleteUserById(Long id) {
+        userRatingRepository.deleteAllByUserId(id);
+        favouriteFilmsRepository.deleteAllByUserId(id);
+        userRepository.deleteById(id);
     }
 
     public UserDto create(RegisterRequest request) {

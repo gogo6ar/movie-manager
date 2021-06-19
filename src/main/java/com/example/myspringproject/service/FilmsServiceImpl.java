@@ -1,9 +1,7 @@
 package com.example.myspringproject.service;
 
-import com.example.myspringproject.repo.CategoryRepository;
-import com.example.myspringproject.repo.FilmRepository;
+import com.example.myspringproject.repo.*;
 import com.example.myspringproject.web.dto.FilmsDto;
-import com.example.myspringproject.web.dto.UserDto;
 import com.example.myspringproject.web.dto.requests.AddFilmRequest;
 import com.example.myspringproject.web.entity.Category;
 import com.example.myspringproject.web.entity.Films;
@@ -13,6 +11,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -26,6 +25,9 @@ import java.util.*;
 public class FilmsServiceImpl implements FilmsService {
     private final FilmRepository filmRepository;
     private final CategoryRepository categoryRepository;
+    private final FavouriteFilmsRepository favouriteFilmRepository;
+    private final CommentRepository commentRepository;
+    private final FilmEmotionRepository filmEmotionRepository;
 
     @Override
     public Films getItemFilm(JsonNode items) {
@@ -280,7 +282,12 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
+    @Transactional
     public void deleteFilmById(Long id) {
+        this.filmEmotionRepository.deleteAllByFilmsId(id);
+        this.categoryRepository.deleteAllByFilmsId(id);
+        this.favouriteFilmRepository.deleteAllByFilmsId(id);
+        this.commentRepository.deleteAllByFilmsId(id);
         this.filmRepository.deleteById(id);
     }
 }

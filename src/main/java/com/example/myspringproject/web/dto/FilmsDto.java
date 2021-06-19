@@ -29,10 +29,11 @@ public class FilmsDto {
 
     public static FilmsDto from(Films films, List<Comment> comments) {
         List<CommentDto> commentDtos = new ArrayList<>();
-        for (Comment comment : comments) {
-            CommentDto commentDto = CommentDto.from(comment);
-            commentDtos.add(commentDto);
-        }
+        if (comments != null && comments.size() != 0)
+            for (Comment comment : comments) {
+                CommentDto commentDto = CommentDto.from(comment);
+                commentDtos.add(commentDto);
+            }
         FilmsDto result = from(films);
         result.setListOfComments(commentDtos);
 
@@ -43,7 +44,7 @@ public class FilmsDto {
         List<Category> categories = films.getCategories();
         List<String> categoryDto = new ArrayList<>();
 
-        if (categories != null) {
+        if (categories != null && categories.size() != 0) {
             for (Category category : categories) {
                 categoryDto.add(category.getCategory());
             }

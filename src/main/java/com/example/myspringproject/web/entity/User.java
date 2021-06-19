@@ -35,6 +35,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "userId")
     private List<UserRating> listOfUserRating = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user")
+    private List<FavouritesFilms> listOfFavouritesFilms = new ArrayList<>();
+
     public User() {
     }
 

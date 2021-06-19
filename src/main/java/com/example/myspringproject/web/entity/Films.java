@@ -20,8 +20,8 @@ import java.util.Map;
 public class Films {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
-    @Column(unique = true)
     private String title;
     @Column(unique = true)
     private String idIMDb;
@@ -39,11 +39,12 @@ public class Films {
     @OneToMany(mappedBy = "films")
     private List<Category> categories = new ArrayList<>();
 
+
     public Map<EmotionType, Integer> getCountOfEmotions() {
         Map<EmotionType, Integer> map = new HashMap<>();
         int heartCount = 0;
         int sadCount = 0;
-        if (emotions != null) {
+        if (emotions != null && emotions.size() != 0) {
             for (FilmEmotion emotion : emotions) {
                 if (emotion.getEmotionType().equals(EmotionType.HEART)) {
                     heartCount++;

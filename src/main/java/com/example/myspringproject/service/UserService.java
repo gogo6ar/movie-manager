@@ -19,6 +19,8 @@ public interface UserService extends UserDetailsService {
 
     void updateUser(Long id, UpdateUserRequest request);
 
+    void deleteUserById(Long id);
+
     UserDto getUserById(Long id);
 
     List<UserDto> getTop10Users();
