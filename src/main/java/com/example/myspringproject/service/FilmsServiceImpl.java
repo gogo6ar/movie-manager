@@ -1,8 +1,11 @@
 package com.example.myspringproject.service;
 
+import com.example.myspringproject.repo.CategoryRepository;
 import com.example.myspringproject.repo.FilmRepository;
 import com.example.myspringproject.web.dto.FilmsDto;
+import com.example.myspringproject.web.dto.UserDto;
 import com.example.myspringproject.web.dto.requests.AddFilmRequest;
+import com.example.myspringproject.web.entity.Category;
 import com.example.myspringproject.web.entity.Films;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -25,6 +28,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class FilmsServiceImpl implements FilmsService {
     private final FilmRepository filmRepository;
+    private final CategoryRepository categoryRepository;
 
     @Override
     public Films getItemFilm(JsonNode items) {
@@ -148,11 +152,11 @@ public class FilmsServiceImpl implements FilmsService {
 
     @Override
     public void addFilms(AddFilmRequest request) throws FileAlreadyExistsException {
-        if (filmRepository.findTitle(request.getTitle()).isEmpty()) {
+        if (!filmRepository.findTitle(request.getTitle()).isEmpty()) {
             throw new FileAlreadyExistsException("This film already exist");
         }
 
-        if (filmRepository.findIdIMDb(request.getIdIMDb()).isEmpty()) {
+        if (!filmRepository.findIdIMDb(request.getIdIMDb()).isEmpty()) {
             throw new FileAlreadyExistsException("This film already exist");
         }
 
@@ -164,18 +168,27 @@ public class FilmsServiceImpl implements FilmsService {
                 .titleType(request.getTitleType())
                 .year(request.getYear())
                 .build();
-        filmRepository.save(films);
+        Long filmId = filmRepository.save(films).getId();
+
+        String arr[] = request.getCategories().split(", ");
+        Category category;
+        for (String e : arr) {
+            category = new Category();
+            category.setFilms(filmRepository.getById(filmId));
+            category.setCategory(e);
+            categoryRepository.save(category);
+        }
     }
 
     @Override
     public void updateFilm(AddFilmRequest request, Long filmId) throws FileAlreadyExistsException {
         //Userid??
 
-        if (filmRepository.findTitle(request.getTitle()).isEmpty()) {
+        if (!filmRepository.findTitle(request.getTitle()).isEmpty()) {
             throw new FileAlreadyExistsException("This film already exist");
         }
 
-        if (filmRepository.findIdIMDb(request.getIdIMDb()).isEmpty()) {
+        if (!filmRepository.findIdIMDb(request.getIdIMDb()).isEmpty()) {
             throw new FileAlreadyExistsException("This film already exist");
         }
 
@@ -190,6 +203,27 @@ public class FilmsServiceImpl implements FilmsService {
                 .build();
         filmRepository.save(films);
 
+        String arr[] = request.getCategories().split(", ");
+        Category category;
+        for (String e : arr) {
+            category = new Category();
+            category.setFilms(filmRepository.getById(filmId));
+            category.setCategory(e);
+            categoryRepository.save(category);
+        }
+    }
+
+    @Override
+    public List<FilmsDto> getFilmsByCategory(String category) {
+        List<FilmsDto> listOfFilms = new ArrayList<>();
+        List<Long> listOfFilmsId = categoryRepository.findAllByCategory(category);
+
+        for (Long id : listOfFilmsId) {
+            listOfFilms.add(FilmsDto.from(filmRepository.getById(id)));
+        }
+
+
+        return listOfFilms;
     }
 
     @Override

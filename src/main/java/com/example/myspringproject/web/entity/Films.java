@@ -33,6 +33,9 @@ public class Films {
     @OneToMany(mappedBy = "films")
     private List<FilmEmotion> emotions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "films")
+    private List<Category> categories = new ArrayList<>();
+
     public Map<EmotionType, Integer> getCountOfEmotions() {
         Map<EmotionType, Integer> map = new HashMap<>();
         int heartCount = 0;

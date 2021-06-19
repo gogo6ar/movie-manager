@@ -14,6 +14,7 @@ public class AddFilmRequest {
     private Integer numberOfEpisodes;
     private String titleType;
     private Integer year;
+    private String categories;
     private Long userId;
 
     @JsonCreator
@@ -23,6 +24,7 @@ public class AddFilmRequest {
                            @JsonProperty Integer numberOfEpisodes,
                            @JsonProperty String titleType,
                            @JsonProperty Integer year,
+                           @JsonProperty String categories,
                            @JsonProperty Long userId
                           ) {
         this.title = title;
@@ -32,5 +34,6 @@ public class AddFilmRequest {
         this.titleType = titleType;
         this.year = year;
         this.userId = userId;
+        this.categories = categories;
     }
 }

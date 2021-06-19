@@ -1,5 +1,6 @@
 package com.example.myspringproject.web.dto;
 
+import com.example.myspringproject.web.entity.Category;
 import com.example.myspringproject.web.entity.Comment;
 import com.example.myspringproject.web.entity.EmotionType;
 import com.example.myspringproject.web.entity.Films;
@@ -24,6 +25,7 @@ public class FilmsDto {
     private Integer year;
     private List<CommentDto> listOfComments;
     private Map<EmotionType, Integer> emotionsCount;
+    private List<String> categories;
 
     public static FilmsDto from(Films films, List<Comment> comments) {
         List<CommentDto> commentDtos = new ArrayList<>();
@@ -38,6 +40,15 @@ public class FilmsDto {
     }
 
     public static FilmsDto from(Films films) {
+        List<Category> categories = films.getCategories();
+        List<String> categoryDto = new ArrayList<>();
+
+        if (categories != null) {
+            for (Category category : categories) {
+                categoryDto.add(category.getCategory());
+            }
+        }
+
         FilmsDto result = new FilmsDto();
         result.setId(films.getId());
         result.setTitle(films.getTitle());
@@ -47,6 +58,7 @@ public class FilmsDto {
         result.setYear(films.getYear());
         result.setNumberOfEpisodes(films.getNumberOfEpisodes());
         result.setEmotionsCount(films.getCountOfEmotions());
+        result.setCategories(categoryDto);
         return result;
     }
 }

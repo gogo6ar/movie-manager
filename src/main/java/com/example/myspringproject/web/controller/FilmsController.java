@@ -2,7 +2,7 @@ package com.example.myspringproject.web.controller;
 
 import com.example.myspringproject.service.FilmsService;
 import com.example.myspringproject.web.dto.requests.AddFilmRequest;
-import com.example.myspringproject.web.dto.requests.RequestBookByTitleFromApis;
+import com.example.myspringproject.web.dto.requests.RequestFilmByTitleFromApis;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class FilmsController {
     private final FilmsService filmsService;
 
     @PostMapping()
-    public ResponseEntity<?> getFilmByTitleFromAPI(@RequestBody RequestBookByTitleFromApis request) throws IOException, InterruptedException, UnirestException {
+    public ResponseEntity<?> getFilmByTitleFromAPI(@RequestBody RequestFilmByTitleFromApis request) throws IOException, InterruptedException, UnirestException {
         return ResponseEntity.ok(filmsService.getFilmsFromAPI(request.getTitle()));
     }
 
@@ -53,6 +53,11 @@ public class FilmsController {
     @GetMapping("/{idIMDb}")
     public ResponseEntity<?> getFilmByIdIMDb(@PathVariable String idIMDb) throws IOException, InterruptedException {
         return ResponseEntity.ok(filmsService.getFilmByIdIMDb(idIMDb));
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<?> getFilmsByCategory(@PathVariable String category) {
+        return ResponseEntity.ok(filmsService.getFilmsByCategory(category));
     }
 
     @PutMapping("/{id}")

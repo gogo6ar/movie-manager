@@ -7,11 +7,11 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-public class RequestBookByTitleFromApis {
+public class RequestFilmByTitleFromApis {
     private String title;
 
     @JsonCreator
-    public RequestBookByTitleFromApis(@JsonProperty String title) {
+    public RequestFilmByTitleFromApis(@JsonProperty String title) {
         this.title = title;
     }
 }
