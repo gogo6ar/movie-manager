@@ -19,7 +19,7 @@ public class Category {
     @ManyToOne
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @JoinColumn(name = "film_id", nullable = false, updatable = false)
+    @JoinColumn(name = "film_id", nullable = false)
     private Films films;
 
     private String category;

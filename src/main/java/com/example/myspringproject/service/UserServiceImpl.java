@@ -4,7 +4,7 @@ import com.example.myspringproject.repo.*;
 import com.example.myspringproject.web.dto.UserDto;
 import com.example.myspringproject.web.dto.requests.RegisterRequest;
 import com.example.myspringproject.web.dto.requests.UpdateUserRequest;
-import com.example.myspringproject.web.entity.User;
+import com.example.myspringproject.web.entity.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -76,10 +76,43 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public void deleteUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
+        User defaultUser = userRepository.getById(1L);
+
         favouriteFilmsRepository.deleteAllByUserId(id);
-        userRatingRepository.deleteAllByUserId(user); ////
-        commentRepository.deleteAllByUserId(id);
-        filmEmotionRepository.deleteAllByUserId(id); ///////
+
+        List<UserRating> listOfUserRatingByUserId = userRatingRepository.getAllByUserId(user.get());
+        if (listOfUserRatingByUserId != null && listOfUserRatingByUserId.size() > 0) {
+            for (UserRating e : listOfUserRatingByUserId) {
+                userRatingRepository.deleteAllByUserId(e.getUserId());
+            }
+        }
+        List<UserRating> listOfUserRatingByUserVoteId = userRatingRepository.getAllByUserVoteId(user.get());
+        if (listOfUserRatingByUserVoteId.size() > 0 && listOfUserRatingByUserVoteId != null) {
+            for (UserRating e : listOfUserRatingByUserVoteId) {
+                e.setUserVoteId(defaultUser);
+                userRatingRepository.save(e);
+            }
+        }
+
+        List<Comment> listOfComments = commentRepository.getAllByUserId(id);
+        if (listOfComments != null && listOfComments.size() > 0) {
+            for (int i = 0; i < listOfComments.size(); i++) {
+                listOfComments.get(i).setUser(defaultUser);
+                commentRepository.save(listOfComments.get(i));
+            }
+//            for (Comment e : listOfComments) {
+//                e.setUser(defaultUser);
+//                commentRepository.save(e);
+//            }
+        }
+
+        List<FilmEmotion> filmEmotion = filmEmotionRepository.getAllByUserId(id);
+        if (filmEmotion != null && filmEmotion.size() > 0) {
+            for (int i = 0; i < filmEmotion.size(); i++) {
+                filmEmotion.get(i).setUser(defaultUser);
+                filmEmotionRepository.save(filmEmotion.get(i));
+            }
+        }
 
         userRepository.deleteById(id);
     }

@@ -17,7 +17,14 @@ public class Reactions {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    private Long UserId;
-    private Long BookId;
+    @ManyToOne
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+    @ManyToOne
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @JoinColumn(name = "films_id", nullable = false, updatable = false)
+    private Films films;
 }

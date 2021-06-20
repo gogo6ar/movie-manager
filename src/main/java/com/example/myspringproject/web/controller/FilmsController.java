@@ -5,7 +5,6 @@ import com.example.myspringproject.service.FilmsService;
 import com.example.myspringproject.web.dto.requests.AddFilmRequest;
 import com.example.myspringproject.web.dto.requests.FavouriteFilmsRequest;
 import com.example.myspringproject.web.dto.requests.RequestFilmByTitleFromApis;
-import com.example.myspringproject.web.entity.FavouritesFilms;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +39,7 @@ public class FilmsController {
     @DeleteMapping("/{id}")
     public ResponseEntity deleteById(@PathVariable Long id) {
         filmsService.deleteFilmById(id);
-        return ResponseEntity.ok("This book was delete");
+        return ResponseEntity.ok("This film was delete");
     }
 
     @GetMapping("/id={id}")
