@@ -24,6 +24,8 @@ public interface UserService extends UserDetailsService {
 
     void updatePassword(Long id, UpdatePasswordRequest request) throws Exception;
 
+    void resetPassword(Long id, String password) throws Exception;
+
     UserDto getUserById(Long id);
 
     List<UserDto> getTop10Users();

@@ -47,8 +47,15 @@ public class UserController {
 
     @PutMapping("/update/password/{id}")
     public ResponseEntity<?> updatePassword(@RequestBody UpdatePasswordRequest request,
-                                            @PathVariable Long id) {
+                                            @PathVariable Long id) throws Exception {
         userService.updatePassword(id, request);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/reset/password/{id}")
+    public ResponseEntity<?> resetPassword(@RequestBody String password,
+                                           @PathVariable Long id) {
+        userService.resetPassword(id, password);
         return ResponseEntity.ok().build();
     }
 

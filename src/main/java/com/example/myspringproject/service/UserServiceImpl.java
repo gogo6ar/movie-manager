@@ -128,6 +128,16 @@ public class UserServiceImpl implements UserService{
         }
 
         user.get().setPassword(request.getNewPassword());
+        userRepository.save(user.get());
+    }
+
+    @Override
+    public void resetPassword(Long id, String password) throws Exception {
+        Optional<User> user = userRepository.findById(id);
+        if (!passwordEncoder.matches(password, user.get().getPassword())) {
+            throw new Exception("Password is incorrect");
+        }
+        //email
     }
 
     public UserDto create(RegisterRequest request) {
