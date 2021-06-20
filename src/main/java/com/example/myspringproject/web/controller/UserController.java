@@ -3,6 +3,7 @@ package com.example.myspringproject.web.controller;
 import com.example.myspringproject.repo.UserRepository;
 import com.example.myspringproject.service.UserService;
 import com.example.myspringproject.web.dto.requests.RegisterRequest;
+import com.example.myspringproject.web.dto.requests.UpdatePasswordRequest;
 import com.example.myspringproject.web.dto.requests.UpdateUserRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,13 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteUserById(@PathVariable Long id) {
         userService.deleteUserById(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/update/password/{id}")
+    public ResponseEntity<?> updatePassword(@RequestBody UpdatePasswordRequest request,
+                                            @PathVariable Long id) {
+        userService.updatePassword(id, request);
         return ResponseEntity.ok().build();
     }
 

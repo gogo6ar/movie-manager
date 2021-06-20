@@ -3,8 +3,12 @@ package com.example.myspringproject.service;
 import com.example.myspringproject.repo.*;
 import com.example.myspringproject.web.dto.UserDto;
 import com.example.myspringproject.web.dto.requests.RegisterRequest;
+import com.example.myspringproject.web.dto.requests.UpdatePasswordRequest;
 import com.example.myspringproject.web.dto.requests.UpdateUserRequest;
-import com.example.myspringproject.web.entity.*;
+import com.example.myspringproject.web.entity.Comment;
+import com.example.myspringproject.web.entity.FilmEmotion;
+import com.example.myspringproject.web.entity.User;
+import com.example.myspringproject.web.entity.UserRating;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,7 +39,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public void updateUser(Long id, UpdateUserRequest request) {
-//        userRepository.update(id, request);
         Optional<User> existingUser = userRepository.findById(id);
 
         User user = User.builder()
@@ -76,6 +79,10 @@ public class UserServiceImpl implements UserService{
     @Transactional
     public void deleteUserById(Long id) {
         Optional<User> user = userRepository.findById(id);
+
+        if (user.isEmpty()) {
+            throw new UsernameNotFoundException("This user doesn't exist");
+        }
         User defaultUser = userRepository.getById(1L);
 
         favouriteFilmsRepository.deleteAllByUserId(id);
@@ -100,10 +107,6 @@ public class UserServiceImpl implements UserService{
                 listOfComments.get(i).setUser(defaultUser);
                 commentRepository.save(listOfComments.get(i));
             }
-//            for (Comment e : listOfComments) {
-//                e.setUser(defaultUser);
-//                commentRepository.save(e);
-//            }
         }
 
         List<FilmEmotion> filmEmotion = filmEmotionRepository.getAllByUserId(id);
@@ -115,6 +118,16 @@ public class UserServiceImpl implements UserService{
         }
 
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public void updatePassword(Long id, UpdatePasswordRequest request) throws Exception {
+        Optional<User> user = userRepository.findById(id);
+        if (!passwordEncoder.matches(request.getLastPassword(), user.get().getPassword())) {
+            throw new Exception("Password is incorrect");
+        }
+
+        user.get().setPassword(request.getNewPassword());
     }
 
     public UserDto create(RegisterRequest request) {
@@ -134,65 +147,5 @@ public class UserServiceImpl implements UserService{
         UserDto userDto = UserDto.from(user, user.getListOfUserRating());
         return userDto;
     }
-
-//    @Override
-//    public void updatePassword(long id, UpdatePasswordRequest request) throws SamePasswordException {
-//        Optional<User> user = userRepository.findById(id);
-//        if (user.isEmpty()) {
-//            throw new UserNotFoundException(String.format("User with ID [%s] not found", id));
-//        }
-//        if (passwordEncoder.matches(request.getNewPassword(), user.get().getPassword())) {
-//            throw new SamePasswordException("New and old passwords must be different");
-//        }
-//        String hashedPassword = passwordEncoder.encode(request.getNewPassword());
-//        user.get().setPassword(hashedPassword);
-//        userRepository.save(user.get());
-//    }
-
-//    @Override
-//    public Optional<User> findById(long id) throws UserNotFoundException {
-//        Optional<User> user = userRepository.findById(id);
-//        if (user.isEmpty()) {
-//            throw new UserNotFoundException(
-//                    String.format("User with ID [%s] not found", id)
-//            );
-//        }
-//        return user;
-//    }
-//
-//    @Override
-//    @Transactional
-//    public void deleteUserById(long id) {
-//        Optional<User> user = userRepository.findById(id);
-//        if (user.isEmpty()) {
-//            throw new UserNotFoundException(String.format("User with ID [%s] not found", id));
-//        }
-//        bookActionRepository.deleteAllByUser(user);
-//        userRepository.deleteById(id);
-//    }
-//
-//    @Override
-//    public void updateUser(long id, UpdateUserRequest request) {
-//        Optional<User> optionalUserByEmail = userRepository.findByEmail(request.getEmail());
-//        if (optionalUserByEmail.isPresent()
-//                && !optionalUserByEmail.get().getFirstName().equals(request.getFirstName())
-//                && !optionalUserByEmail.get().getLastName().equals(request.getLastName())
-//                && !optionalUserByEmail.get().getPhone().equals(request.getPhone())) {
-//            throw new UserAlreadyExistsException(String.format("[%s] already exists! Consider another one.", request.getEmail()));
-//        }
-//
-//        Optional<User> optionalUser = userRepository.findById(id);
-//        if (optionalUser.isEmpty()) {
-//            throw new UserNotFoundException(String.format("User with ID [%s] not found", id));
-//        }
-//        User user = optionalUser.get();
-//        user.setEmail(request.getEmail());
-//        user.setAge(request.getAge());
-//        user.setFirstName(request.getFirstName());
-//        user.setLastName(request.getLastName());
-//        user.setPhone(request.getPhone());
-//        user.setRole(request.getRole());
-//        userRepository.save(user);
-//    }
 }
 

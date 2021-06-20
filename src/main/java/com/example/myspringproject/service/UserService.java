@@ -2,6 +2,7 @@ package com.example.myspringproject.service;
 
 import com.example.myspringproject.web.dto.UserDto;
 import com.example.myspringproject.web.dto.requests.RegisterRequest;
+import com.example.myspringproject.web.dto.requests.UpdatePasswordRequest;
 import com.example.myspringproject.web.dto.requests.UpdateUserRequest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,6 +21,8 @@ public interface UserService extends UserDetailsService {
     void updateUser(Long id, UpdateUserRequest request);
 
     void deleteUserById(Long id);
+
+    void updatePassword(Long id, UpdatePasswordRequest request) throws Exception;
 
     UserDto getUserById(Long id);
 
