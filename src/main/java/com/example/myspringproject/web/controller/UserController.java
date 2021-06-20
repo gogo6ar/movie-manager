@@ -54,7 +54,7 @@ public class UserController {
 
     @PostMapping("/reset/password/{id}")
     public ResponseEntity<?> resetPassword(@RequestBody String password,
-                                           @PathVariable Long id) {
+                                           @PathVariable Long id) throws Exception {
         userService.resetPassword(id, password);
         return ResponseEntity.ok().build();
     }
