@@ -32,14 +32,24 @@ public class User implements UserDetails {
     private String role;
     private Double rating;
 
+
+    @Column(name = "verification_code", length = 64)
+    private String verificationCode;
+
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    public User() {
+        super();
+        this.enabled=false;
+    }
+
     @OneToMany(mappedBy = "userId")
     private List<UserRating> listOfUserRating = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<FavouritesFilms> listOfFavouritesFilms = new ArrayList<>();
 
-    public User() {
-    }
 
     public Double getUserRating(Byte lastVote) {
         Double userRating = lastVote * 1.0;
@@ -105,8 +115,8 @@ public class User implements UserDetails {
         return true;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
+
+    public boolean isEnabled(User user) {
+        return user.isEnabled();
     }
 }

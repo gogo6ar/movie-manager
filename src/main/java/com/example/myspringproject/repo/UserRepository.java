@@ -17,4 +17,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query(nativeQuery = true, value = "SELECT * FROM Users u WHERE u.rating IS NOT NULL order by u.rating Desc Limit 10")
     List<User> getTop10Users();
 
+    @Query("SELECT u FROM User u WHERE u.verificationCode = ?1")
+    User findByVerificationCode(String code);
+
 }

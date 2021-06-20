@@ -8,19 +8,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public interface UserService extends UserDetailsService {
 
     List<UserDto> findAll();
 
-    UserDto create(RegisterRequest request);
+    UserDto create(RegisterRequest request) throws MessagingException, UnsupportedEncodingException;
 
     UserDetails loadUserByUsername(String email) throws UsernameNotFoundException;
 
     void updateUser(Long id, UpdateUserRequest request);
 
     void deleteUserById(Long id);
+
+    boolean verify(String verificationCode);
 
     void updatePassword(Long id, UpdatePasswordRequest request) throws Exception;
 

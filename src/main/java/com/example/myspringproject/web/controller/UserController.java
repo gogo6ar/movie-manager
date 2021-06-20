@@ -6,8 +6,12 @@ import com.example.myspringproject.web.dto.requests.RegisterRequest;
 import com.example.myspringproject.web.dto.requests.UpdatePasswordRequest;
 import com.example.myspringproject.web.dto.requests.UpdateUserRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 
 @RestController
 @CrossOrigin(origins = "**")
@@ -28,8 +32,17 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> createUser(@RequestBody RegisterRequest request) {
+    public ResponseEntity<?> createUser(@RequestBody RegisterRequest request) throws MessagingException, UnsupportedEncodingException {
         return ResponseEntity.ok(userService.create(request));
+    }
+
+    @GetMapping("/verify")
+    public String verifyUser(@Param("code") String code) {
+        if (userService.verify(code)) {
+            return "verify_success";
+        } else {
+            return "verify_fail";
+        }
     }
 
     @PutMapping("/update/{id}")
