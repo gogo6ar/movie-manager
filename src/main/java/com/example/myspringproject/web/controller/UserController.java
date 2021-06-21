@@ -1,10 +1,12 @@
 package com.example.myspringproject.web.controller;
 
 import com.example.myspringproject.repo.UserRepository;
+import com.example.myspringproject.service.ResetPasswordService;
 import com.example.myspringproject.service.UserService;
 import com.example.myspringproject.web.dto.requests.RegisterRequest;
 import com.example.myspringproject.web.dto.requests.UpdatePasswordRequest;
 import com.example.myspringproject.web.dto.requests.UpdateUserRequest;
+import com.example.myspringproject.web.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin(origins = "**")
@@ -20,6 +23,7 @@ import java.io.UnsupportedEncodingException;
 public class UserController {
     private final UserService userService;
     private final UserRepository userRepository;
+    private final ResetPasswordService resetPasswordService;
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getUser(@PathVariable Long id) {
@@ -44,6 +48,31 @@ public class UserController {
             return "verify_fail";
         }
     }
+
+    @GetMapping("/reset-password/{id}")
+    public ResponseEntity<?> resetPasswordEmail(@PathVariable Long id) throws MessagingException, UnsupportedEncodingException {
+        resetPasswordService.resetPassword(id);
+        return ResponseEntity.ok().build();
+    }
+
+
+
+    @GetMapping("/reset-password-check/{id}")
+    public ResponseEntity<?> resetPasswordCheck(@PathVariable Long id,
+                                                @Param("code") String code) {
+
+        if (userService.verify(code)) {
+            Optional<User> user = userRepository.findById(id);
+            user.get().setPassword(null);
+            userRepository.save(user.get());
+
+            return ResponseEntity.ok("verify_success");
+        } else {
+            return ResponseEntity.ok("verify_fail");
+        }
+    }
+
+
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateUserById(@PathVariable Long id,

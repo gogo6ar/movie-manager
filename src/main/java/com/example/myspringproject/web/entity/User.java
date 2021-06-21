@@ -115,8 +115,8 @@ public class User implements UserDetails {
         return true;
     }
 
-
-    public boolean isEnabled(User user) {
-        return user.isEnabled();
+    @Override
+    public boolean isEnabled () {
+        return enabled;
     }
 }
