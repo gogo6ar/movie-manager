@@ -55,20 +55,18 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-
-
     @GetMapping("/reset-password-check/{id}")
     public ResponseEntity<?> resetPasswordCheck(@PathVariable Long id,
                                                 @Param("code") String code) {
 
-        if (userService.verify(code)) {
+        if (resetPasswordService.verify(code)) {
             Optional<User> user = userRepository.findById(id);
             user.get().setPassword(null);
             userRepository.save(user.get());
 
-            return ResponseEntity.ok("verify_success");
+            return ResponseEntity.ok("Password reset");
         } else {
-            return ResponseEntity.ok("verify_fail");
+            return ResponseEntity.ok("password_reset_fail");
         }
     }
 

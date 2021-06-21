@@ -39,7 +39,7 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
 
     private void sendVerificationEmail(User user, ResetPassword resetPassword)
             throws MessagingException, UnsupportedEncodingException {
-        String siteURL = "";
+        String siteURL = "http://localhost:8080/";
         String toAddress = user.getEmail();
         String fromAddress = "gherta.nicolai@gmail.co";
         String senderName = "Film-manager";
@@ -58,7 +58,7 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
         helper.setSubject(subject);
 
         content = content.replace("[[name]]", user.getFirstName() + " " + user.getLastName());
-        String verifyURL = siteURL + "users/verify?code=" + user.getVerificationCode();
+        String verifyURL = siteURL + "users/reset-password-check/"+ user.getId() +"?code=" + resetPassword.getVerificationCode();
 
         content = content.replace("[[URL]]", verifyURL);
 
