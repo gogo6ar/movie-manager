@@ -233,20 +233,15 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
-    public List<ArrayList<String>> getAllCategoriesSortedDesc() {
-        List<ArrayList<String>> list = new ArrayList<>();
-        List<String> tmpList = new ArrayList<>();
+    public List<HashMap> getAllCategoriesSortedDesc() {
+        List<HashMap> list = new ArrayList<>();
         List<String> titleCategories = categoryRepository.titleCategories();
         List<Integer> countCategories = categoryRepository.countCategories();
 
-        System.out.println(titleCategories.size() + " : " + countCategories.size());
-        System.out.println(titleCategories);
-        System.out.println(countCategories);
-
         for (int i =0; i < titleCategories.size(); i++) {
-            tmpList.add(countCategories.get(i).toString());
-            tmpList.add(titleCategories.get(i));
-            list.add((ArrayList<String>) tmpList);
+            Map<Integer, String> map = new HashMap<>();
+            map.put(countCategories.get(i), titleCategories.get(i));
+            list.add((HashMap) map);
         }
 
         return list;

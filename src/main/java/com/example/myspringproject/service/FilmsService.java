@@ -8,7 +8,7 @@ import com.mashape.unirest.http.exceptions.UnirestException;
 
 import java.io.IOException;
 import java.nio.file.FileAlreadyExistsException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -37,5 +37,5 @@ public interface FilmsService {
 
     FilmsDto getById(Long id);
 
-    List<ArrayList<String>> getAllCategoriesSortedDesc();
+    List<HashMap> getAllCategoriesSortedDesc();
 }
