@@ -233,6 +233,26 @@ public class FilmsServiceImpl implements FilmsService {
     }
 
     @Override
+    public List<ArrayList<String>> getAllCategoriesSortedDesc() {
+        List<ArrayList<String>> list = new ArrayList<>();
+        List<String> tmpList = new ArrayList<>();
+        List<String> titleCategories = categoryRepository.titleCategories();
+        List<Integer> countCategories = categoryRepository.countCategories();
+
+        System.out.println(titleCategories.size() + " : " + countCategories.size());
+        System.out.println(titleCategories);
+        System.out.println(countCategories);
+
+        for (int i =0; i < titleCategories.size(); i++) {
+            tmpList.add(countCategories.get(i).toString());
+            tmpList.add(titleCategories.get(i));
+            list.add((ArrayList<String>) tmpList);
+        }
+
+        return list;
+    }
+
+    @Override
     public List<FilmsDto> getFilmsFromAPI(String title) throws IOException, InterruptedException {
 
         title = title.replaceAll(" ", "%20");

@@ -73,6 +73,11 @@ public class FilmsController {
         return ResponseEntity.ok(filmsService.getFilmsByCategory(category));
     }
 
+    @GetMapping("/categories")
+    public ResponseEntity<?> getFilmsSortedByCategory() {
+        return ResponseEntity.ok(filmsService.getAllCategoriesSortedDesc());
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity <?> updateFilm(@RequestBody AddFilmRequest request,
                                          @PathVariable("id") Long filmId) throws FileAlreadyExistsException {
