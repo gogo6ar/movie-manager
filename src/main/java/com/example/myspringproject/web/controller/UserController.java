@@ -3,6 +3,7 @@ package com.example.myspringproject.web.controller;
 import com.example.myspringproject.repo.UserRepository;
 import com.example.myspringproject.service.ResetPasswordService;
 import com.example.myspringproject.service.UserService;
+import com.example.myspringproject.web.dto.requests.ChangePasswordAfterRequest;
 import com.example.myspringproject.web.dto.requests.RegisterRequest;
 import com.example.myspringproject.web.dto.requests.UpdatePasswordRequest;
 import com.example.myspringproject.web.dto.requests.UpdateUserRequest;
@@ -68,6 +69,13 @@ public class UserController {
         } else {
             return ResponseEntity.ok("password_reset_fail");
         }
+    }
+
+    @PutMapping("/reset-password/{id}")
+    public ResponseEntity<?> changePasswordAfterReset(@PathVariable Long id,
+                                                      @RequestBody ChangePasswordAfterRequest request) throws Exception {
+        return ResponseEntity.ok(resetPasswordService.
+                changePasswordAfterReset(id, request.getNewPassword()));
     }
 
 

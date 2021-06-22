@@ -2,12 +2,15 @@ package com.example.myspringproject.service;
 
 import com.example.myspringproject.repo.ResetPasswordRepository;
 import com.example.myspringproject.repo.UserRepository;
+import com.example.myspringproject.web.dto.UserDto;
 import com.example.myspringproject.web.entity.ResetPassword;
 import com.example.myspringproject.web.entity.User;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.utility.RandomString;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
@@ -21,6 +24,8 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
     private final UserRepository userRepository;
     private final ResetPasswordRepository resetPasswordRepository;
     private final JavaMailSender mailSender;
+    private final PasswordEncoder passwordEncoder;
+
 
     @Override
     public void resetPassword (Long id) throws MessagingException, UnsupportedEncodingException {
@@ -35,6 +40,26 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
         resetPasswordRepository.save(resetPassword);
 
         sendVerificationEmail(user.get(), resetPassword);
+    }
+
+    @Override
+    public UserDto changePasswordAfterReset(Long id, String newPassword) throws Exception {
+        Optional<User> user = userRepository.findById(id);
+
+        if (user.isEmpty()) {
+            throw new UsernameNotFoundException("This user doesn't exist");
+        }
+
+        if (user.get().getPassword() != null) {
+            throw new Exception("This user doesn't reset his password");
+        }
+
+        user.get().setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user.get());
+
+        UserDto userDto = UserDto.from(user.get(), user.get().getListOfUserRating());
+
+        return userDto;
     }
 
     private void sendVerificationEmail(User user, ResetPassword resetPassword)
@@ -79,6 +104,6 @@ public class ResetPasswordServiceImpl implements ResetPasswordService {
 
             return true;
         }
-
     }
+
 }
