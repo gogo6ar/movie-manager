@@ -10,6 +10,7 @@ import com.example.myspringproject.web.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -24,11 +25,13 @@ public class CommentServiceImpl implements CommentService {
 
         Optional<User> user = userRepository.findById(request.getUserId());
         Optional<Films> films = filmRepository.findById(request.getFilmId());
+        LocalDate localDate = LocalDate.now();
 
         Comment comment = Comment.builder()
                 .films(films.get())
                 .comment(request.getComment())
                 .user(user.get())
+                .date(localDate)
                 .build();
 
         commentRepository.save(comment);

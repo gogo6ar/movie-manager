@@ -3,6 +3,7 @@ package com.example.myspringproject.web.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @NoArgsConstructor
@@ -17,6 +18,7 @@ public class Comment {
     private Long id;
 
     private String comment;
+    private LocalDate date;
 
     @ManyToOne
     @EqualsAndHashCode.Exclude
