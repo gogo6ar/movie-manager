@@ -10,10 +10,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     @Transactional
     void deleteAllById(Long id);
 
-//    @Transactional
-//    @Query(nativeQuery = true, value = "Delete FROM comments c WHERE c.film_id =:id")
-//    void deleteAllByFilmId(Long filmId);
-
     void deleteAllByFilmsId(Long filmsId);
 
     void deleteAllByUserId(Long id);

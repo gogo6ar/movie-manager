@@ -12,10 +12,6 @@ public interface FavouriteFilmsRepository extends JpaRepository<FavouritesFilms,
     @Query(nativeQuery = true, value = "SELECT f.film_id FROM favourites_films f WHERE f.user_id = :id")
     List<Films> getFavouritesFilms(Long id);
 
-//    @Transactional
-//    @Query(nativeQuery = true, value = "Delete * FROM favourites_films f WHERE f.film_id = :id;")
-//    void deleteAllByFilms(Long id);
-
     void deleteAllByFilmsId(Long filmsId);
 
     void deleteAllByUserId(Long id);

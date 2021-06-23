@@ -10,10 +10,6 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 
-    List<User> findByRole(String role);
-
-    Integer countUsersByIdGreaterThan(Long start);
-
     @Query(nativeQuery = true, value = "SELECT * FROM Users u WHERE u.rating IS NOT NULL order by u.rating Desc Limit 10")
     List<User> getTop10Users();
 
